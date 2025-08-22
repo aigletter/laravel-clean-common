@@ -131,4 +131,39 @@ class LaravelCollection implements Contract
     {
         return $this->collection->count();
     }
+
+    public function groupBy(string|callable $callback): static
+    {
+        return new static($this->collection->groupBy($callback));
+    }
+
+    public function first(?callable $callback = null, mixed $default = null): mixed
+    {
+        return $this->collection->first($callback);
+    }
+
+    public function contains(mixed $value): bool
+    {
+        return $this->collection->contains($value);
+    }
+
+    public function shuffle(): static
+    {
+        return new static($this->collection->shuffle());
+    }
+
+    public function chunk(int $length): static
+    {
+        return new static($this->collection->chunk($length));
+    }
+
+    public function filter(callable $callback = null): static
+    {
+        return new static($this->collection->filter($callback));
+    }
+
+    public function reduce(callable $callback, mixed $initial = null): mixed
+    {
+        return new static($this->collection->reduce($callback, $initial));
+    }
 }
