@@ -164,6 +164,6 @@ class LaravelCollection implements Contract
 
     public function reduce(callable $callback, mixed $initial = null): mixed
     {
-        return new static($this->collection->reduce($callback, $initial));
+        return $this->collection->reduce($callback, $initial);
     }
 }
