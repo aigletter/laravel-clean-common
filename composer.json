@@ -30,8 +30,8 @@
     },
     "repositories": [
         {
-            "type": "path",
-            "url": "../clean-common"
+            "type": "github",
+            "url": "git@github.com:aigletter/clean-common.git"
         }
     ]
 }
