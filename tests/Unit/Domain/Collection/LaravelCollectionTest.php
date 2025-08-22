@@ -30,7 +30,7 @@ class LaravelCollectionTest extends TestCase
         $this->assertSame(['first', 'second'], array_keys($result->toArray()));
     }
 
-    public function testPluckString()
+    public function testPluckPrimitive()
     {
         $items = $this->getTestData();
         $collection = new LaravelCollection(new Collection($items));
@@ -47,6 +47,14 @@ class LaravelCollectionTest extends TestCase
         });
 
         $this->assertSame(['one', 'two'], $result->toArray());
+    }
+
+    public function testKeyByPluckPrimitive()
+    {
+        $items = $this->getTestData();
+        $collection = new LaravelCollection(new Collection($items));
+        $result = $collection->keyBy('key')->pluck('value');
+        $this->assertSame(array_column($this->getTestData(), 'value', 'key'), $result->toArray());
     }
 
     private function makeTestEntities(): array

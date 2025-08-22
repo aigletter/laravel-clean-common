@@ -77,7 +77,8 @@ class LaravelCollection implements Contract
                 return $key($item, $index);
             }));
         }
-        return new static($this->collection->pluck($key));
+
+        return new static($this->collection->keys()->combine($this->collection->pluck($key)));
     }
 
     public function keys(): static
