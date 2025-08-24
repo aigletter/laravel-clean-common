@@ -32,6 +32,11 @@ class LaravelCollection implements Contract
         $this->collection->put($key, $value);
     }
 
+    public function has(int|string $key): bool
+    {
+        return $this->collection->has($key);
+    }
+
     public function remove(string|int $key): void
     {
         $this->collection->forget($key);
