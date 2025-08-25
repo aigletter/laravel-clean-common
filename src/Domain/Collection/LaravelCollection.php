@@ -140,7 +140,9 @@ class LaravelCollection implements Contract
 
     public function groupBy(string|callable $callback): static
     {
-        return new static($this->collection->groupBy($callback));
+        return (new static($this->collection->groupBy($callback)))->map(function (Collection $collection) {
+            return new static($collection);
+        });
     }
 
     public function first(?callable $callback = null, mixed $default = null): mixed
