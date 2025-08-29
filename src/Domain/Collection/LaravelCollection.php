@@ -101,7 +101,7 @@ class LaravelCollection implements Contract
         return new static($this->collection->slice($start, $length));
     }
 
-    public function merge(Contract $collection): static
+    public function merge(?Contract $collection = null): static
     {
         return new static(
             $this->collection->merge(new Collection($collection->toArray()))
@@ -173,5 +173,17 @@ class LaravelCollection implements Contract
     public function reduce(callable $callback, mixed $initial = null): mixed
     {
         return $this->collection->reduce($callback, $initial);
+    }
+
+    public function collapse(): static
+    {
+        $collapsed = $this->collection->flatMap(function ($item) {
+            if ($item instanceof self) {
+                return $item->toArray();
+            }
+            return [$item];
+        });
+
+        return new self($collapsed);
     }
 }

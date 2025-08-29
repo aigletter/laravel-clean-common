@@ -69,6 +69,22 @@ class LaravelCollectionTest extends TestCase
         $this->assertCount(2, $result);
     }
 
+    public function testCollapse()
+    {
+        $collection = new LaravelCollection(
+            new IlluminateCollection([
+                new LaravelCollection(new IlluminateCollection($this->getTestData())),
+                new LaravelCollection(new IlluminateCollection($this->getTestData()))
+            ])
+        );
+        $result = $collection->collapse();
+        $this->assertCount(4, $result);
+
+        $collection = new LaravelCollection(new IlluminateCollection($this->getTestData()));
+        $result = $collection->collapse();
+        $this->assertSame($result->toArray(), $collection->toArray());
+    }
+
     private function makeTestEntities(): array
     {
         $result = [];
