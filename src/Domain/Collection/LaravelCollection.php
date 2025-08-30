@@ -184,11 +184,16 @@ class LaravelCollection implements Contract
             return [$item];
         });
 
-        return new self($collapsed);
+        return new static($collapsed);
     }
 
     public function random(): mixed
     {
         return $this->collection->random();
+    }
+
+    public function unique(): static
+    {
+        return new static($this->collection->unique());
     }
 }
