@@ -186,4 +186,9 @@ class LaravelCollection implements Contract
 
         return new self($collapsed);
     }
+
+    public function random(): mixed
+    {
+        return $this->collection->random();
+    }
 }
