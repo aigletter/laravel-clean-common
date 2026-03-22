@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Unit\Domain\Collection;
+namespace Tests\Unit\Infrastructure\Collection;
 
 use Aigletter\CleanCommon\Domain\Collection\Collection;
-use Aigletter\LaravelClean\Domain\Collection\LaravelCollection;
+use Aigletter\LaravelClean\Infrastructure\Collection\LaravelCollection;
 use Illuminate\Support\Collection as IlluminateCollection;
 use PHPUnit\Framework\TestCase;
 use stdClass;

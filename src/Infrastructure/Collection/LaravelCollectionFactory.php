@@ -1,6 +1,6 @@
 <?php
 
-namespace Aigletter\LaravelClean\Domain\Collection;
+namespace Aigletter\LaravelClean\Infrastructure\Collection;
 
 use Aigletter\CleanCommon\Domain\Collection\Collection;
 use Aigletter\CleanCommon\Domain\Collection\MakeCollectionInterface;

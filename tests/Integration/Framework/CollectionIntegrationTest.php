@@ -3,7 +3,7 @@
 namespace Tests\Integration\Framework;
 
 use Aigletter\CleanCommon\Domain\Collection\MakeCollectionInterface;
-use Aigletter\LaravelClean\Domain\Collection\LaravelCollection;
+use Aigletter\LaravelClean\Infrastructure\Collection\LaravelCollection;
 use Aigletter\LaravelClean\Framework\Providers\LaravelCleanServiceProvider;
 use Orchestra\Testbench\TestCase;
 
