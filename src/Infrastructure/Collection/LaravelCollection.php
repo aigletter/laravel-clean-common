@@ -165,7 +165,7 @@ class LaravelCollection implements Contract
         return new static($this->collection->chunk($length));
     }
 
-    public function filter(callable $callback = null): static
+    public function filter(?callable $callback = null): static
     {
         return new static($this->collection->filter($callback));
     }
