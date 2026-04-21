@@ -19,7 +19,7 @@ class LaravelCollection implements Contract
 
     public function map(callable $callback): static
     {
-        return new static($this->collection->map($callback));
+        return $this->newInstance($this->collection->map($callback));
     }
 
     public function get(string|int $key, mixed $default = null): mixed
@@ -72,38 +72,40 @@ class LaravelCollection implements Contract
 
     public function keyBy(callable|string $key): static
     {
-        return new static($this->collection->keyBy($key));
+        return $this->newInstance($this->collection->keyBy($key));
     }
 
     public function pluck(callable|string $key): static
     {
         if ($key instanceof \Closure || (is_array($key) && count($key) === 2 && is_callable($key))) {
-            return new static($this->collection->map(function (mixed $item, string|int $index) use ($key) {
-                return $key($item, $index);
-            }));
+            return $this->newInstance(
+                $this->collection->map(function (mixed $item, string|int $index) use ($key) {
+                    return $key($item, $index);
+                })
+            );
         }
 
-        return new static($this->collection->keys()->combine($this->collection->pluck($key)));
+        return $this->newInstance($this->collection->keys()->combine($this->collection->pluck($key)));
     }
 
     public function keys(): static
     {
-        return new static($this->collection->keys());
+        return $this->newInstance($this->collection->keys());
     }
 
     public function values(): static
     {
-        return new static($this->collection->values());
+        return $this->newInstance($this->collection->values());
     }
 
     public function slice(int $start, ?int $length = null): static
     {
-        return new static($this->collection->slice($start, $length));
+        return $this->newInstance($this->collection->slice($start, $length));
     }
 
     public function merge(?Contract $collection = null): static
     {
-        return new static(
+        return $this->newInstance(
             $this->collection->merge(new Collection($collection->toArray()))
         );
     }
@@ -140,7 +142,7 @@ class LaravelCollection implements Contract
 
     public function groupBy(string|callable $callback): static
     {
-        return (new static($this->collection->groupBy($callback)))->map(function (Collection $collection) {
+        return ($this->newInstance($this->collection->groupBy($callback)))->map(function (Collection $collection) {
             return new static($collection);
         });
     }
@@ -157,17 +159,17 @@ class LaravelCollection implements Contract
 
     public function shuffle(): static
     {
-        return new static($this->collection->shuffle());
+        return $this->newInstance($this->collection->shuffle());
     }
 
     public function chunk(int $length): static
     {
-        return new static($this->collection->chunk($length));
+        return $this->newInstance($this->collection->chunk($length));
     }
 
     public function filter(?callable $callback = null): static
     {
-        return new static($this->collection->filter($callback));
+        return $this->newInstance($this->collection->filter($callback));
     }
 
     public function reduce(callable $callback, mixed $initial = null): mixed
@@ -184,7 +186,7 @@ class LaravelCollection implements Contract
             return [$item];
         });
 
-        return new static($collapsed);
+        return $this->newInstance($collapsed);
     }
 
     public function random(): mixed
@@ -194,6 +196,59 @@ class LaravelCollection implements Contract
 
     public function unique(): static
     {
-        return new static($this->collection->unique());
+        return $this->newInstance($this->collection->unique());
+    }
+
+    public function withKey(int|string $key, mixed $value): static
+    {
+        $collection = clone $this->collection;
+        $collection->put($key, $value);
+
+        return $this->newInstance($collection);
+    }
+
+    public function withoutKey(int|string $key): static
+    {
+        $collection = clone $this->collection;
+        $collection->forget($key);
+
+        return $this->newInstance($collection);
+    }
+
+    public function withAppended(...$value): static
+    {
+        $collection = clone $this->collection;
+        $collection->push(...$value);
+
+        return $this->newInstance($collection);
+    }
+
+    public function withoutLast(): static
+    {
+        $collection = clone $this->collection;
+        $collection->pop();
+
+        return $this->newInstance($collection);
+    }
+
+    public function withPrepended(...$value): static
+    {
+        $collection = clone $this->collection;
+        $collection->unshift(...$value);
+
+        return $this->newInstance($collection);
+    }
+
+    public function withoutFirst(): static
+    {
+        $collection = clone $this->collection;
+        $collection->shift();
+
+        return $this->newInstance($collection);
+    }
+
+    protected function newInstance(Collection $collection): static
+    {
+        return new static($collection);
     }
 }
