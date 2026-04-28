@@ -247,6 +247,16 @@ class LaravelCollection implements Contract
         return $this->newInstance($collection);
     }
 
+    public function sort($callback = null): static
+    {
+        return $this->newInstance($this->collection->sort($callback));
+    }
+
+    public function sortBy($callback, $options = SORT_REGULAR, $descending = false): static
+    {
+        return $this->newInstance($this->collection->sortBy($callback, $options, $descending));
+    }
+
     protected function newInstance(Collection $collection): static
     {
         return new static($collection);
