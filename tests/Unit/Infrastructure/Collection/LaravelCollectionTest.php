@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Infrastructure\Collection;
 
-use Aigletter\CleanCommon\Domain\Collection\Collection;
+use Aigletter\CleanCommon\Domain\Collections\Collection;
 use Aigletter\LaravelClean\Infrastructure\Collection\LaravelCollection;
 use Illuminate\Support\Collection as IlluminateCollection;
 use PHPUnit\Framework\TestCase;
@@ -85,6 +85,51 @@ class LaravelCollectionTest extends TestCase
         $this->assertSame($result->toArray(), $collection->toArray());
     }
 
+    public function testWithoutKey()
+    {
+        $items = $this->getTestData();
+        $collection = new LaravelCollection(new IlluminateCollection($items));
+
+        $result = $collection->withoutKey(0);
+        $this->assertSame([1 => $items[1]], $result->toArray());
+    }
+
+    public function testSearch()
+    {
+        $items = $this->getTestData();
+        $collection = new LaravelCollection(new IlluminateCollection($items));
+
+        $result = $collection->search(function ($item, $key) {
+            return $key === 1;
+        });
+        $this->assertEquals(1, $result);
+
+        $result = $collection->search(function ($item, $key) {
+            return false;
+        });
+        $this->assertSame(false, $result);
+    }
+
+    public function testUniqueObjects()
+    {
+        $items = $this->getTestObjectData();
+        $items[] = $this->testArrayToObject($this->getTestData()[1]);
+        $collection = new LaravelCollection(new IlluminateCollection($items));
+
+        $results = $collection->unique();
+        $this->assertCount(2, $results);
+    }
+
+    public function testContainsObjects()
+    {
+        $items = $this->getTestObjectData();
+        $test = $this->testArrayToObject($this->getTestData()[1]);
+        $collection = new LaravelCollection(new IlluminateCollection($items));
+
+        $result = $collection->contains($test);
+        $this->assertTrue($result);
+    }
+
     private function makeTestEntities(): array
     {
         $result = [];
@@ -92,6 +137,28 @@ class LaravelCollectionTest extends TestCase
             $result[] = $this->makeTestEntity($item['key'], $item['value']);
         }
         return $result;
+    }
+
+    private function getTestObjectData(): array
+    {
+        return array_map(function (array $item) {
+            return $this->testArrayToObject($item);
+        }, $this->getTestData());
+    }
+
+    private function testArrayToObject(array $item): object
+    {
+        return new class($item['key'], $item['value']) extends stdClass {
+            public function __construct(private string $key, private string $value) {}
+            public function getKey(): string
+            {
+                return $this->key;
+            }
+            public function getValue(): string
+            {
+                return $this->value;
+            }
+        };
     }
 
     private function getTestData(): array

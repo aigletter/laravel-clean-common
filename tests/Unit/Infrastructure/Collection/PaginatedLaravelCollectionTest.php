@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Infrastructure\Collection;
 
-use Aigletter\CleanCommon\Domain\Collection\PaginatedCollection;
+use Aigletter\CleanCommon\Application\Collections\PaginatedCollection;
 use Aigletter\LaravelClean\Infrastructure\Collection\PaginatedLaravelCollection;
 use Illuminate\Support\Collection as IlluminateCollection;
 use PHPUnit\Framework\TestCase;

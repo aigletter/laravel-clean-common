@@ -2,9 +2,9 @@
 
 namespace Tests\Integration\Framework;
 
-use Aigletter\CleanCommon\Domain\Collection\Collection;
-use Aigletter\CleanCommon\Domain\Collection\MakeCollectionInterface;
-use Aigletter\CleanCommon\Domain\Collection\PaginatedCollection;
+use Aigletter\CleanCommon\Domain\Collections\Collection;
+use Aigletter\CleanCommon\Application\Collections\CollectionFactory;
+use Aigletter\CleanCommon\Application\Collections\PaginatedCollection;
 use Aigletter\LaravelClean\Infrastructure\Collection\LaravelCollection;
 use Aigletter\LaravelClean\Framework\Providers\LaravelCleanServiceProvider;
 use Orchestra\Testbench\TestCase;
@@ -18,13 +18,10 @@ class CollectionIntegrationTest extends TestCase
 
     public function testFactoryIsRegistered()
     {
-        $this->assertTrue($this->app->bound(MakeCollectionInterface::class));
-        $factory = $this->app->make(MakeCollectionInterface::class);
+        $this->assertTrue($this->app->bound(CollectionFactory::class));
+        $factory = $this->app->make(CollectionFactory::class);
 
         $collection = $factory->make();
         $this->assertInstanceOf(Collection::class, $collection);
-
-        $collection = $factory->makePaginated();
-        $this->assertInstanceOf(PaginatedCollection::class, $collection);
     }
 }

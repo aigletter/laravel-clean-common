@@ -2,7 +2,7 @@
 
 namespace Aigletter\LaravelClean\Infrastructure\Collection;
 
-use Aigletter\CleanCommon\Domain\Collection\PaginatedCollection;
+use Aigletter\CleanCommon\Application\Collections\PaginatedCollection;
 use Illuminate\Support\Collection;
 
 class PaginatedLaravelCollection extends LaravelCollection implements PaginatedCollection

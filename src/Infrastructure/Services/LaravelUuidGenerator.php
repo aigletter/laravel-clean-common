@@ -2,7 +2,7 @@
 
 namespace Aigletter\LaravelClean\Infrastructure\Services;
 
-use Aigletter\CleanCommon\Application\Contracts\IdGenerator;
+use Aigletter\CleanCommon\Application\Services\IdGenerator;
 use Illuminate\Support\Str;
 
 class LaravelUuidGenerator implements IdGenerator

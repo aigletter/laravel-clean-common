@@ -2,20 +2,14 @@
 
 namespace Aigletter\LaravelClean\Infrastructure\Collection;
 
-use Aigletter\CleanCommon\Domain\Collection\Collection;
-use Aigletter\CleanCommon\Domain\Collection\MakeCollectionInterface;
-use Aigletter\CleanCommon\Domain\Collection\PaginatedCollection;
+use Aigletter\CleanCommon\Application\Collections\CollectionFactory;
+use Aigletter\CleanCommon\Domain\Collections\Collection;
 use Illuminate\Support\Collection as IlluminateCollection;
 
-class LaravelCollectionFactory implements MakeCollectionInterface
+class LaravelCollectionFactory implements CollectionFactory
 {
     public function make(array $items = []): Collection
     {
         return new LaravelCollection(new IlluminateCollection($items));
-    }
-
-    public function makePaginated(array $items = [], int $total = 0): PaginatedCollection
-    {
-        return new PaginatedLaravelCollection(new IlluminateCollection($items), $total);
     }
 }

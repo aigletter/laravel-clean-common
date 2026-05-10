@@ -2,13 +2,13 @@
 
 namespace Aigletter\LaravelClean\Infrastructure\Collection;
 
-use Aigletter\CleanCommon\Domain\Collection\Collection as Contract;
-use Illuminate\Support\Collection;
+use Aigletter\CleanCommon\Domain\Collections\Collection as Contract;
+use Illuminate\Support\Collection as IlluminateCollection;
 use Traversable;
 
 class LaravelCollection implements Contract
 {
-    public function __construct(private Collection $collection)
+    public function __construct(private readonly IlluminateCollection $collection)
     {
     }
 
@@ -39,7 +39,7 @@ class LaravelCollection implements Contract
 
     public function remove(string|int $key): void
     {
-        $this->collection->forget($key);
+        $this->collection->forget([$key]);
     }
 
     public function push(mixed ...$value): void
@@ -106,7 +106,7 @@ class LaravelCollection implements Contract
     public function merge(?Contract $collection = null): static
     {
         return $this->newInstance(
-            $this->collection->merge(new Collection($collection->toArray()))
+            $this->collection->merge(new IlluminateCollection($collection->toArray()))
         );
     }
 
@@ -140,9 +140,9 @@ class LaravelCollection implements Contract
         return $this->collection->count();
     }
 
-    public function groupBy(string|callable $callback): static
+    public function groupBy(string|callable $key): static
     {
-        return ($this->newInstance($this->collection->groupBy($callback)))->map(function (Collection $collection) {
+        return ($this->newInstance($this->collection->groupBy($key)))->map(function (IlluminateCollection $collection) {
             return new static($collection);
         });
     }
@@ -194,9 +194,9 @@ class LaravelCollection implements Contract
         return $this->collection->random();
     }
 
-    public function unique(): static
+    public function unique(string|callable|null $key = null, bool $strict = false): static
     {
-        return $this->newInstance($this->collection->unique());
+        return $this->newInstance($this->collection->unique($key, $strict));
     }
 
     public function withKey(int|string $key, mixed $value): static
@@ -210,7 +210,7 @@ class LaravelCollection implements Contract
     public function withoutKey(int|string $key): static
     {
         $collection = clone $this->collection;
-        $collection->forget($key);
+        $collection->forget([$key]);
 
         return $this->newInstance($collection);
     }
@@ -257,7 +257,17 @@ class LaravelCollection implements Contract
         return $this->newInstance($this->collection->sortBy($callback, $options, $descending));
     }
 
-    protected function newInstance(Collection $collection): static
+    public function search(mixed $value, bool $strict = false): mixed
+    {
+        return $this->collection->search($value, $strict);
+    }
+
+    public function empty(): static
+    {
+        return $this->newInstance($this->collection->empty());
+    }
+
+    protected function newInstance(IlluminateCollection $collection): static
     {
         return new static($collection);
     }
