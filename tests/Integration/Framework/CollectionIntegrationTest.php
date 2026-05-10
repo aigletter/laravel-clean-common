@@ -3,9 +3,7 @@
 namespace Tests\Integration\Framework;
 
 use Aigletter\CleanCommon\Domain\Collections\Collection;
-use Aigletter\CleanCommon\Application\Collections\CollectionFactory;
-use Aigletter\CleanCommon\Application\Collections\PaginatedCollection;
-use Aigletter\LaravelClean\Infrastructure\Collection\LaravelCollection;
+use Aigletter\CleanCommon\Domain\Collections\CollectionFactory;
 use Aigletter\LaravelClean\Framework\Providers\LaravelCleanServiceProvider;
 use Orchestra\Testbench\TestCase;
 

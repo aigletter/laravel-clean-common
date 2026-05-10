@@ -2,7 +2,7 @@
 
 namespace Aigletter\LaravelClean\Infrastructure\Collection;
 
-use Aigletter\CleanCommon\Application\Collections\CollectionFactory;
+use Aigletter\CleanCommon\Domain\Collections\CollectionFactory;
 use Aigletter\CleanCommon\Domain\Collections\Collection;
 use Illuminate\Support\Collection as IlluminateCollection;
 
