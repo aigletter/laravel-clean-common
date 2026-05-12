@@ -3,7 +3,7 @@
 namespace Aigletter\LaravelClean\Framework\Providers;
 
 use Aigletter\CleanCommon\Application\Services\IdGenerator;
-use Aigletter\CleanCommon\Application\Collections\CollectionFactory;
+use Aigletter\CleanCommon\Domain\Collections\CollectionFactory;
 use Aigletter\CleanCommon\Application\Collections\PaginatedCollectionFactory;
 use Aigletter\CleanCommon\Utils\Helper\StringHelper;
 use Aigletter\LaravelClean\Infrastructure\Collection\LaravelCollectionFactory;
