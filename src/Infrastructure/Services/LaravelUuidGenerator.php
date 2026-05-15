@@ -9,6 +9,6 @@ class LaravelUuidGenerator implements IdGenerator
 {
     public function generate(): string
     {
-        return Str::uuid()->toString();
+        return Str::uuid7()->toString();
     }
 }
