@@ -12,6 +12,7 @@ class PaginatedLaravelCollectionTest extends TestCase
 {
     public function testWith()
     {
+        $items = $this->getTestData();
         $collection = new PaginatedLaravelCollection(new IlluminateCollection($items), 100);
         $collection = $collection->withKey('key', 'value');
 
@@ -29,6 +30,23 @@ class PaginatedLaravelCollectionTest extends TestCase
 
         $this->assertInstanceOf(PaginatedCollection::class, $result);
         $this->assertSame(array_column($items, 'value'), $result->toArray());
+    }
+
+    public function testTotal()
+    {
+        $items = $this->getTestData();
+        $collection = new PaginatedLaravelCollection(new IlluminateCollection($items), 100);
+
+        $result = $collection->total();
+
+        $this->assertEquals(100, $result);
+
+        $items = $this->getTestData();
+        $collection = new PaginatedLaravelCollection(new IlluminateCollection($items));
+
+        $result = $collection->total();
+
+        $this->assertEquals(2,$result);
     }
 
     private function getTestData(): array

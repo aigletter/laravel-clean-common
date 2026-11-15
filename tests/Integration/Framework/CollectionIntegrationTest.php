@@ -4,7 +4,7 @@ namespace Tests\Integration\Framework;
 
 use Aigletter\CleanCommon\Domain\Collections\Collection;
 use Aigletter\CleanCommon\Domain\Collections\CollectionFactory;
-use Aigletter\LaravelClean\Framework\Providers\LaravelCleanServiceProvider;
+use Aigletter\LaravelClean\Laravel\Providers\LaravelCleanServiceProvider;
 use Orchestra\Testbench\TestCase;
 
 class CollectionIntegrationTest extends TestCase

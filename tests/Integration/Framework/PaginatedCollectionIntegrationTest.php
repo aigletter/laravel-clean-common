@@ -1,10 +1,10 @@
 <?php
 
-namespace Integration\Framework;
+namespace Tests\Integration\Framework;
 
 use Aigletter\CleanCommon\Application\Collections\PaginatedCollectionFactory;
 use Aigletter\CleanCommon\Application\Collections\PaginatedCollection;
-use Aigletter\LaravelClean\Framework\Providers\LaravelCleanServiceProvider;
+use Aigletter\LaravelClean\Laravel\Providers\LaravelCleanServiceProvider;
 use Orchestra\Testbench\TestCase;
 
 class PaginatedCollectionIntegrationTest extends TestCase

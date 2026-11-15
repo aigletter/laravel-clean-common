@@ -5,12 +5,14 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Aigletter\\LaravelClean\\": "src/"
+            "Aigletter\\LaravelClean\\": "src/",
+            "Aigletter\\LaravelClean\\Laravel\\": "app/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests"
+            "Tests\\": "tests",
+            "Temp\\": "tmp"
         }
     },
     "authors": [
@@ -37,7 +39,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Aigletter\\LaravelClean\\Framework\\Providers\\LaravelCleanServiceProvider"
+                "Aigletter\\LaravelClean\\Laravel\\Providers\\LaravelCleanServiceProvider"
             ]
         }
     }

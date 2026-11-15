@@ -14,7 +14,7 @@ class PaginatedLaravelCollection extends LaravelCollection implements PaginatedC
 
     public function total(): int
     {
-        return $this->total;
+        return $this->total !== null ? $this->total : $this->count();
     }
 
     protected function newInstance(Collection $collection): static
