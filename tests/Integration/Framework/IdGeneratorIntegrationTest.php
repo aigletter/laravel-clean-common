@@ -2,7 +2,7 @@
 
 namespace Tests\Integration\Framework;
 
-use Aigletter\CleanCommon\Domain\Services\IdGenerator;
+use Aigletter\CleanCommon\Application\Services\IdGenerator;
 use Aigletter\LaravelClean\Infrastructure\Services\LaravelUuidGenerator;
 use Aigletter\LaravelClean\Laravel\Providers\LaravelCleanServiceProvider;
 use Orchestra\Testbench\TestCase;
