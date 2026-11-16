@@ -23,7 +23,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "aigletter/clean-common":  "dev-master",
+        "aigletter/clean-common":  "dev-collections",
         "laravel/framework": "^13.0"
     },
     "require-dev": {

@@ -4,6 +4,7 @@ namespace Tests\Unit\Infrastructure\Collection;
 
 use Aigletter\CleanCommon\Domain\Collections\Collection;
 use Aigletter\LaravelClean\Infrastructure\Collection\LaravelCollection;
+use Aigletter\LaravelClean\Infrastructure\Collection\MutableLaravelCollection;
 use Illuminate\Support\Collection as IlluminateCollection;
 use PHPUnit\Framework\TestCase;
 use stdClass;
@@ -14,7 +15,7 @@ class LaravelCollectionTest extends TestCase
     {
         $array = [3, 4, 5];
         $unshift = [1, 2];
-        $collection = new LaravelCollection(new IlluminateCollection($array));
+        $collection = new MutableLaravelCollection(new IlluminateCollection($array));
         array_unshift($array, ...$unshift);
         $collection->unshift(...$unshift);
         $this->assertEquals($array, $collection->toArray());
@@ -92,6 +93,22 @@ class LaravelCollectionTest extends TestCase
 
         $result = $collection->withoutKey(0);
         $this->assertSame([1 => $items[1]], $result->toArray());
+    }
+
+    public function testConversionsCreateIndependentCollections()
+    {
+        $immutable = new LaravelCollection(new IlluminateCollection(['original']));
+        $mutable = $immutable->toMutable();
+        $mutable->push('mutable');
+
+        $this->assertSame(['original'], $immutable->toArray());
+        $this->assertSame(['original', 'mutable'], $mutable->toArray());
+
+        $copy = $mutable->toImmutable();
+        $mutable->push('later');
+
+        $this->assertSame(['original', 'mutable'], $copy->toArray());
+        $this->assertSame(['original', 'mutable', 'later'], $mutable->toArray());
     }
 
     public function testSearch()

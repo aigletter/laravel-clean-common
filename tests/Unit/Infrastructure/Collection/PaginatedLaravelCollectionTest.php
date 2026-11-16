@@ -3,7 +3,9 @@
 namespace Tests\Unit\Infrastructure\Collection;
 
 use Aigletter\CleanCommon\Application\Collections\PaginatedCollection;
+use Aigletter\CleanCommon\Application\Collections\MutablePaginatedCollection;
 use Aigletter\LaravelClean\Infrastructure\Collection\PaginatedLaravelCollection;
+use Aigletter\LaravelClean\Infrastructure\Collection\PaginatedMutableLaravelCollection;
 use Illuminate\Support\Collection as IlluminateCollection;
 use PHPUnit\Framework\TestCase;
 
@@ -47,6 +49,44 @@ class PaginatedLaravelCollectionTest extends TestCase
         $result = $collection->total();
 
         $this->assertEquals(2,$result);
+    }
+
+    public function testToMutable()
+    {
+        $items = $this->getTestData();
+        $collection = new PaginatedLaravelCollection(new IlluminateCollection($items), 100);
+
+        $result = $collection->toMutable();
+
+        $this->assertInstanceOf(MutablePaginatedCollection::class, $result);
+        $this->assertInstanceOf(PaginatedMutableLaravelCollection::class, $result);
+
+        $this->assertSame(100, $result->total());
+    }
+
+    public function testMutableTransformationsPreserveTotal(): void
+    {
+        $collection = new PaginatedLaravelCollection(new IlluminateCollection($this->getTestData()), 100);
+
+        $result = $collection->toMutable()->map(fn (array $item) => $item['value']);
+
+        $this->assertInstanceOf(MutablePaginatedCollection::class, $result);
+        $this->assertSame(['one', 'two'], $result->toArray());
+        $this->assertSame(100, $result->total());
+    }
+
+    public function testToImmutablePreservesTotalAndCopiesItems(): void
+    {
+        $mutable = (new PaginatedLaravelCollection(new IlluminateCollection($this->getTestData()), 100))->toMutable();
+
+        $immutable = $mutable->toImmutable();
+        $mutable->push(['key' => 'third', 'value' => 'three']);
+
+        $this->assertInstanceOf(PaginatedCollection::class, $immutable);
+        $this->assertInstanceOf(PaginatedLaravelCollection::class, $immutable);
+        $this->assertSame(100, $immutable->total());
+        $this->assertCount(2, $immutable);
+        $this->assertCount(3, $mutable);
     }
 
     private function getTestData(): array

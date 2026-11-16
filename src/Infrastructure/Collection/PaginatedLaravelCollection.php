@@ -2,6 +2,7 @@
 
 namespace Aigletter\LaravelClean\Infrastructure\Collection;
 
+use Aigletter\CleanCommon\Application\Collections\MutablePaginatedCollection;
 use Aigletter\CleanCommon\Application\Collections\PaginatedCollection;
 use Illuminate\Support\Collection;
 
@@ -20,5 +21,10 @@ class PaginatedLaravelCollection extends LaravelCollection implements PaginatedC
     protected function newInstance(Collection $collection): static
     {
         return new static($collection, $this->total);
+    }
+
+    public function toMutable(): MutablePaginatedCollection
+    {
+        return new PaginatedMutableLaravelCollection(clone $this->collection, $this->total());
     }
 }
